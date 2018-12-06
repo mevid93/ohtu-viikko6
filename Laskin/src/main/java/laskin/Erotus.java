@@ -10,6 +10,7 @@ public class Erotus implements Komento {
     private Button nollaa;
     private Button undo;
     private Sovelluslogiikka sovellus;
+    private int edellinenTulos;
 
     public Erotus(TextField tuloskentta, TextField syotekentta, Button nollaa, Button undo, Sovelluslogiikka sovellus) {
         this.tuloskentta = tuloskentta;
@@ -17,6 +18,7 @@ public class Erotus implements Komento {
         this.nollaa = nollaa;
         this.undo = undo;
         this.sovellus = sovellus;
+        edellinenTulos = 0;
     }
 
     @Override
@@ -24,6 +26,7 @@ public class Erotus implements Komento {
         int arvo = 0;
         try {
             arvo = Integer.parseInt(syotekentta.getText());
+            edellinenTulos = sovellus.tulos();
             sovellus.miinus(arvo);
         } catch (Exception e) {
 
@@ -42,7 +45,10 @@ public class Erotus implements Komento {
 
     @Override
     public void peru() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        sovellus.nollaa();
+        sovellus.plus(edellinenTulos);
+        tuloskentta.setText("" + sovellus.tulos());
+        undo.disableProperty().set(true);
     }
 
 }
